@@ -1,0 +1,78 @@
+package ratesapi;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public enum CurrenciesEnum {
+    EUR,
+    GBP,
+    HKD,
+    IDR,
+    ILS,
+    DKK,
+    INR,
+    CHF,
+    MXN,
+    CZK,
+    SGD,
+    THB,
+    HRK,
+    MYR,
+    NOK,
+    CNY,
+    BGN,
+    PHP,
+    SEK,
+    PLN,
+    ZAR,
+    CAD,
+    ISK,
+    BRL,
+    RON,
+    NZD,
+    TRY,
+    JPY,
+    RUB,
+    KRW,
+    USD,
+    HUF,
+    AUD;
+
+    public static List<String> getFullCurrenciesList() {
+        return new ArrayList<String>(Arrays.asList(
+                "EUR",
+                "GBP",
+                "HKD",
+                "IDR",
+                "ILS",
+                "DKK",
+                "INR",
+                "CHF",
+                "MXN",
+                "CZK",
+                "SGD",
+                "THB",
+                "HRK",
+                "MYR",
+                "NOK",
+                "CNY",
+                "BGN",
+                "PHP",
+                "SEK",
+                "PLN",
+                "ZAR",
+                "CAD",
+                "ISK",
+                "BRL",
+                "RON",
+                "NZD",
+                "TRY",
+                "JPY",
+                "RUB",
+                "KRW",
+                "USD",
+                "HUF",
+                "AUD"));
+    }
+}
