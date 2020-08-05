@@ -95,15 +95,36 @@ public class StepsDefinitions {
         assertEquals(Helper.getLatestDate(), responsePOJO.getDate());
     }
 
-    @Then("^response contains error for invalid symbol \"([^\"]*)\"$")
-    public void assertInvalidSymbolError(String invalidSymbol) {
-        assertEquals(String.format("Symbols '%s' are invalid for date %s.", invalidSymbol, Helper.getLatestDate()), errorResponsePOJO.getError());
+    @Then("^response contains error for invalid symbol \"([^\"]*)\" for date \"([^\"]*)\"$")
+    public void assertInvalidSymbolError(String invalidSymbol, String date) {
+        assertEquals(String.format("Symbols '%s' are invalid for date %s.", invalidSymbol, date.isEmpty() ? Helper.getLatestDate(): date),
+                errorResponsePOJO.getError());
     }
 
     @Then("^response contains error for not supported base \"([^\"]*)\"$")
     public void assertNotSupportedBaseError(String notSupportedBaseSymbol) {
-        String responseWithError = response.body().asString();
         assertEquals(String.format("Base '%s' is not supported.", notSupportedBaseSymbol), errorResponsePOJO.getError());
+    }
+
+    @Then("response contains error `no data for dates older then 1999-01-04`")
+    public void assertNotSupportedDateError() {
+        assertEquals("There is no data for dates older then 1999-01-04.", errorResponsePOJO.getError());
+    }
+
+    @Then("^response contains error for date of wrong format \"([^\"]*)\"$")
+    public void assertDateNotMatchFormatError(String wrongFormatDate) {
+        String format = "%Y-%m-%d";
+        assertEquals(String.format("time data '%s' does not match format '%s'", wrongFormatDate, format), errorResponsePOJO.getError());
+    }
+
+    @Then("^response contains error for unconverted data remaining \"([^\"]*)\"$")
+    public void assertUnconvertedDataError(String remainder) {
+        assertEquals(String.format("unconverted data remains: %s", remainder), errorResponsePOJO.getError());
+    }
+
+    @Then("^response contains error for url not found \"([^\"]*)\"$")
+    public void assertNotFoundUrlError(String url) {
+        assertEquals(String.format("Error: Requested URL /api/%s not found", url), response.body().asString());
     }
 
     @Then("response contains rates for \"([^\"]*)\"$")

@@ -75,18 +75,38 @@ Feature: Currency Rate Api - latest rates
     And response contains full list of currency rates without "EUR"
     And response contains latest date
 
-  Scenario: Rates for not supported currency symbol
+  Scenario Outline: Error for not supported currency symbol
     # DZD - Algerian dinar
     Given I set GET rates API endpoint
-    And I use query param `symbols` "DZD"
+    And I use query param `symbols` "<symbol>"
     When I request url "/latest"
     Then I get status "400"
-    And response contains error for invalid symbol "DZD"
+    And response contains error for invalid symbol "<symbol>" for date "<date>"
+    Examples:
+      |symbol|date|
+      |DZD   |    |
 
-  Scenario: Rates for not supported currency base
+Scenario: Error for not supported currency base
     # DZD - Algerian dinar
     Given I set GET rates API endpoint
     And I use query param `base` "DZD"
     When I request url "/latest"
     Then I get status "400"
     And response contains error for not supported base "DZD"
+
+  Scenario: Error for not supported currency base
+    # DZD - Algerian dinar
+    Given I set GET rates API endpoint
+    And I use query param `base` "DZD"
+    When I request url "/latest"
+    Then I get status "400"
+    And response contains error for not supported base "DZD"
+
+  Scenario Outline: Error for /latest url not found
+    Given I set GET rates API endpoint
+    When I request url "<url>"
+    Then I get status "404"
+    And response contains error for url not found "<url>"
+    Examples:
+      |url        |
+      |latest/test|
