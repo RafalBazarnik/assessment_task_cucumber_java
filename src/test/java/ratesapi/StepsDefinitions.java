@@ -6,30 +6,29 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBodyData;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
 
-public class GetLatestRate {
-    private static Logger LOGGER = LogManager.getLogger(GetLatestRate.class);
+public class StepsDefinitions {
+    private static Logger LOGGER = LogManager.getLogger(StepsDefinitions.class);
     private String ENDPOINT = PropertiesLoader.get("basic_api_url");
     private Response response;
     private ValidatableResponse json;
     private RequestSpecification request;
     private ResponsePOJO responsePOJO;
+    private ErrorResponsePOJO errorResponsePOJO;
 
-    // Given:
+    //region Given steps implementation:
 
     @Given("I set GET rates API endpoint")
     public void setEndpoint() {
@@ -39,22 +38,34 @@ public class GetLatestRate {
 
     @Given("^I use query param `symbols` \"([^\"]*)\"$")
     public void addSymbolsParam(String symbol) {
+        LOGGER.debug("Add query param `symbols` with: " + symbol);
         request.given().queryParam("symbols", symbol);
     }
 
     @Given("^I use query param `base` \"([^\"]*)\"$")
     public void addBaseParam(String base) {
+        LOGGER.debug("Add query param `base` with: " + base);
         request.given().queryParam("base", base);
     }
 
-    // When:
+    //endregion
+
+    //region When steps implementation:
 
     @When("^I request url \"([^\"]*)\"$")
     public void requestUrl(String urlPart) {
         response = request.when().get(urlPart);
+        if (response.getStatusCode() == 200) {
+            responsePOJO = MapJsonToPOJO.map(response.body().asString());
+        } else {
+            errorResponsePOJO = MapJsonToPOJO.mapError(response.body().asString());
+        }
+
     }
 
-    //Then:
+    //endregion
+
+    //region Then steps implementation:
 
     @Then("^I get status \"([^\"]*)\"$")
     public void assertStatusCode(String expectedStatusCode) {
@@ -64,32 +75,35 @@ public class GetLatestRate {
 
     @Then("^response contains base currency \"([^\"]*)\"$")
     public void assertBaseCurrency(String expectedBaseCurrency) {
-        responsePOJO = MapJsonToPOJO.map(response.body().asString());
         assertEquals(expectedBaseCurrency, responsePOJO.getBase());
     }
 
+    @Then("response contains full list of currency rates")
+    public void assertRatesFullList() {
+        assertTrue(CurrenciesEnum.getFullCurrenciesList().containsAll(responsePOJO.getRates().keySet()));
+    }
+
     @Then("^response contains full list of currency rates without \"([^\"]*)\"$")
-    public void assertRates(String baseCurrency) {
+    public void assertRatesLimited(String baseCurrency) {
         List<String> listWithoutBase = CurrenciesEnum.getFullCurrenciesList()
                 .stream().filter(curr -> !curr.equals(baseCurrency)).collect(Collectors.toList());
         assertTrue(listWithoutBase.containsAll(responsePOJO.getRates().keySet()));
     }
 
-    @Then("response contains current date")
-    public void assertDate() {
-            assertEquals(Helper.getCurrentDate(), responsePOJO.getDate());
+    @Then("response contains latest date")
+    public void assertLatestDate() {
+        assertEquals(Helper.getLatestDate(), responsePOJO.getDate());
     }
 
     @Then("^response contains error for invalid symbol \"([^\"]*)\"$")
     public void assertInvalidSymbolError(String invalidSymbol) {
-        String responseWithError = response.body().asString();
-        assertEquals(String.format("{\"error\":\"Symbols '%s' are invalid for date %s.\"}", invalidSymbol, Helper.getCurrentDate()), responseWithError);
+        assertEquals(String.format("Symbols '%s' are invalid for date %s.", invalidSymbol, Helper.getLatestDate()), errorResponsePOJO.getError());
     }
 
     @Then("^response contains error for not supported base \"([^\"]*)\"$")
     public void assertNotSupportedBaseError(String notSupportedBaseSymbol) {
         String responseWithError = response.body().asString();
-        assertEquals(String.format("{\"error\":\"Base '%s' is not supported.\"}", notSupportedBaseSymbol), responseWithError);
+        assertEquals(String.format("Base '%s' is not supported.", notSupportedBaseSymbol), errorResponsePOJO.getError());
     }
 
     @Then("response contains rates for \"([^\"]*)\"$")
@@ -102,4 +116,19 @@ public class GetLatestRate {
     public void assertRatesInResponse(String currency, Float expectedRate) {
         assertEquals(responsePOJO.getRates().get(currency), expectedRate);
     }
+
+    @Then("^response contains list of currency rates for \"([^\"]*)\"$")
+    public void assertFilteredRatesInResponse(String symbols) {
+        LOGGER.debug(responsePOJO.getRates());
+        List<String> symbolsList = Arrays.asList(symbols.split(","));
+        LOGGER.debug(responsePOJO.getRates().keySet() + " should contain all in: " + symbols);
+        assertTrue(symbolsList.containsAll(responsePOJO.getRates().keySet()));
+    }
+
+    @Then("^response contains expected response body for date \"([^\"]*)\" and queryParams: `base` \"([^\"]*)\" and `symbols` \"([^\"]*)\"$")
+    public void assertResponse(String date, String base, String symbol) {
+        assertEquals(JsonFileLoader.getJsonFile(date, base, symbol), responsePOJO);
+    }
+
+    //endregion
 }

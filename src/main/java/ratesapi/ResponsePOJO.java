@@ -3,6 +3,7 @@ package ratesapi;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class ResponsePOJO {
     @JsonProperty("base")
@@ -39,6 +40,21 @@ public class ResponsePOJO {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResponsePOJO that = (ResponsePOJO) o;
+        return base.equals(that.base) &&
+                rates.equals(that.rates) &&
+                date.equals(that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(base, rates, date);
     }
 
     @Override

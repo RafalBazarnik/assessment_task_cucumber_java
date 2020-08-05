@@ -13,12 +13,28 @@ public class MapJsonToPOJO {
         LOGGER.debug(jsonString);
         ResponsePOJO responsePOJO = null;
         ObjectMapper mapper = new ObjectMapper();
+
         try {
             responsePOJO = mapper.readValue(jsonString, ResponsePOJO.class);
         } catch (IOException exception) {
             LOGGER.error(exception);
         }
+
         return responsePOJO;
+    }
+
+    public static ErrorResponsePOJO mapError(String jsonString) {
+        LOGGER.debug(jsonString);
+        ErrorResponsePOJO errorResponsePOJO = null;
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            errorResponsePOJO = mapper.readValue(jsonString, ErrorResponsePOJO.class);
+        } catch (IOException exception) {
+            LOGGER.error(exception);
+        }
+
+        return errorResponsePOJO;
     }
 
 }
