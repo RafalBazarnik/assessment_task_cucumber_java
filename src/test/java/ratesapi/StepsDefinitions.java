@@ -6,8 +6,7 @@ import io.cucumber.java.en.Then;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,9 +15,8 @@ import java.util.stream.Collectors;
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
-
+@Log4j2
 public class StepsDefinitions {
-    private static Logger LOGGER = LogManager.getLogger(StepsDefinitions.class);
     private String ENDPOINT = PropertiesLoader.get("basic_api_url");
     private Response response;
     private RequestSpecification request;
@@ -36,13 +34,13 @@ public class StepsDefinitions {
 
     @Given("^I use query param `symbols` \"([^\"]*)\"$")
     public void addSymbolsParam(String symbol) {
-        LOGGER.debug("Add query param `symbols` with: " + symbol);
+        log.debug("Add query param `symbols` with: " + symbol);
         request.given().queryParam("symbols", symbol);
     }
 
     @Given("^I use query param `base` \"([^\"]*)\"$")
     public void addBaseParam(String base) {
-        LOGGER.debug("Add query param `base` with: " + base);
+        log.debug("Add query param `base` with: " + base);
         request.given().queryParam("base", base);
     }
 
@@ -80,13 +78,14 @@ public class StepsDefinitions {
 
     @Then("response contains full list of Currency Rates")
     public void assertRatesFullList() {
-        assertTrue(CurrenciesEnum.getFullCurrenciesList().containsAll(responsePOJO.getRates().keySet()));
+        assertTrue(Arrays.stream(CurrenciesEnum.values()).map(Enum::name)
+                .collect(Collectors.toList()).containsAll(responsePOJO.getRates().keySet()));
     }
 
     @Then("^response contains full list of Currency Rates without \"([^\"]*)\"$")
     public void assertRatesLimited(String baseCurrency) {
-        List<String> listWithoutBase = CurrenciesEnum.getFullCurrenciesList()
-                .stream().filter(curr -> !curr.equals(baseCurrency)).collect(Collectors.toList());
+        List<String> listWithoutBase = Arrays.stream(CurrenciesEnum.values()).map(Enum::name)
+                .filter(curr -> !curr.equals(baseCurrency)).collect(Collectors.toList());
         assertTrue(listWithoutBase.containsAll(responsePOJO.getRates().keySet()));
     }
 
@@ -129,7 +128,7 @@ public class StepsDefinitions {
 
     @Then("response contains Currency Rates for \"([^\"]*)\"$")
     public void assertRatesInResponse(String expectedCurrencyRates) {
-        LOGGER.debug(responsePOJO.getRates() + " should contain: " + expectedCurrencyRates);
+        log.debug(responsePOJO.getRates() + " should contain: " + expectedCurrencyRates);
         assertTrue(responsePOJO.getRates().containsKey(expectedCurrencyRates));
     }
 
@@ -140,9 +139,9 @@ public class StepsDefinitions {
 
     @Then("^response contains list of Currency Rates for \"([^\"]*)\"$")
     public void assertFilteredRatesInResponse(String symbols) {
-        LOGGER.debug(responsePOJO.getRates());
+        log.debug(responsePOJO.getRates());
         List<String> symbolsList = Arrays.asList(symbols.split(","));
-        LOGGER.debug(responsePOJO.getRates().keySet() + " should contain all in: " + symbols);
+        log.debug(responsePOJO.getRates().keySet() + " should contain all in: " + symbols);
         assertTrue(symbolsList.containsAll(responsePOJO.getRates().keySet()));
     }
 

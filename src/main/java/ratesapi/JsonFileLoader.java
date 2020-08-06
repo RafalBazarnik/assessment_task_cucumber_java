@@ -1,17 +1,15 @@
 package ratesapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Log4j2
 public abstract class JsonFileLoader {
-    private static Logger LOGGER = LogManager.getLogger(JsonFileLoader.class);
-
     public static ResponsePOJO getJsonFile(String date, String base, String symbol) {
         ObjectMapper mapper = new ObjectMapper();
         String dir = System.getProperty("user.dir");
@@ -22,10 +20,10 @@ public abstract class JsonFileLoader {
         try {
             response = mapper.readValue(new File(String.valueOf(path)), ResponsePOJO.class);
         } catch (IOException exception) {
-            LOGGER.error(exception);
+            log.error(exception);
         }
 
-        LOGGER.debug(response);
+        log.debug(response);
         return response;
     }
 
@@ -41,7 +39,11 @@ public abstract class JsonFileLoader {
             filename = String.format("%s.json", date);
         }
 
-        LOGGER.debug(filename);
+        log.debug(filename);
         return filename;
+    }
+
+    private JsonFileLoader() {
+        // private constructor
     }
 }

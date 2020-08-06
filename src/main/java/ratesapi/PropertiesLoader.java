@@ -1,8 +1,6 @@
 package ratesapi;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import lombok.extern.log4j.Log4j2;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-public abstract class PropertiesLoader {
-    private static Logger LOGGER = LogManager.getLogger(PropertiesLoader.class);
+@Log4j2
+public class PropertiesLoader {
     private static Properties properties = new Properties();
 
     private static Properties getProperties() {
@@ -22,29 +20,25 @@ public abstract class PropertiesLoader {
     }
 
     private static void loadProperties() {
-        InputStream input = null;
         String dir = System.getProperty("user.dir");
         Path path = Paths.get(dir, "src", "main", "resources", "config.properties");
 
-        try {
-            input = new FileInputStream(path.toString());
+        try (InputStream input = new FileInputStream(path.toString());) {
             properties.load(input);
         } catch (IOException exception) {
-            LOGGER.error(exception.getMessage());
-        } finally {
-            try {
-                input.close();
-            } catch (IOException exception) {
-                LOGGER.error(exception.getMessage());
-            }
+            log.error(exception.getMessage());
         }
     }
 
     public static String get(String key) {
         String property = getProperties().getProperty(key);
-        if (property == null || property.length() == 0) { // TODO: consider if we want only Strings or other types too?
+        if (property == null || property.length() == 0) {
             throw new IllegalArgumentException("Empty property or no property with key " + key);
         }
         return property;
+    }
+
+    private PropertiesLoader() {
+        // private constructor
     }
 }

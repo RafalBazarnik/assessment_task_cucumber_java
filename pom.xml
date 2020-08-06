@@ -12,9 +12,10 @@
     <properties>
         <cucumber.version>6.2.2</cucumber.version>
         <junit.version>4.13</junit.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.9.10.5</jackson.version>
         <rest-assured.version>4.3.0</rest-assured.version>
-        <log4j.version>2.11.1</log4j.version>
+        <log4j.version> 2.13.3</log4j.version>
+        <lombok.version>1.18.12</lombok.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -63,6 +64,13 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -78,12 +78,14 @@ Feature: Currency Rate Api - Getting latest Currency Rates
       |symbol|date|
       |DZD   |    |
 
+  @FailingOnPurpose
   Scenario: Trying to get latest Currency Rates for not supported Currency Base
     # DZD - Algerian dinar
     Given I want to get Currencies Rates from GET rates api endpoint
     And I use query param `base` "DZD"
     When I request url "/latest"
-    Then I get status "400"
+#    should be: Then I get status "400"
+    Then I get status "200"
     And response contains error for not supported Currency Base "DZD"
 
   Scenario Outline: Trying to get latest Currency Rates from incorrect url
