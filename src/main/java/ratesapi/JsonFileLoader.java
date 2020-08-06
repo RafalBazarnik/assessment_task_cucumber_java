@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Log4j2
-public abstract class JsonFileLoader {
+public final class JsonFileLoader {
     public static ResponsePOJO getJsonFile(String date, String base, String symbol) {
         ObjectMapper mapper = new ObjectMapper();
         String dir = System.getProperty("user.dir");

@@ -53,11 +53,14 @@ public class StepsDefinitions {
         response = request.when().get(urlPart);
         String responseString = response.body().asString();
         if (response.getStatusCode() == 200) {
-            responsePOJO = MapJsonToPOJO.map(responseString);
+            responsePOJO = MapJsonToPOJO.map(responseString, ResponsePOJO.class);
+            log.debug("responsePOJO: " + responsePOJO);
         } else if (response.getStatusCode() == 404) {
             errorResponse = responseString;
+            log.debug("errorResponse: " + errorResponse);
         } else {
-            errorResponsePOJO = MapJsonToPOJO.mapError(responseString);
+            errorResponsePOJO = MapJsonToPOJO.map(responseString, ErrorResponsePOJO.class);
+            log.debug("errorResponsePOJO: " + errorResponsePOJO);
         }
     }
 

@@ -3,7 +3,7 @@ package ratesapi;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class Helper {
+public final class Helper {
     public static String getLatestDate() {
         String pattern = "yyyy-MM-dd";
         LocalDateTime localDateTime = LocalDateTime.now();
