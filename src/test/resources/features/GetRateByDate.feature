@@ -57,12 +57,12 @@ Feature: Currency Rate Api - GET historical data by date
   Scenario Outline: Trying to get historical Currency Rates for not supported Currency Base at chosen date
     # XYZ - not a currency symbol
     Given I want to get Currencies Rates from GET rates api endpoint
-    And I use query param `base` "<symbol>"
+    And I use query param `base` "<base>"
     When I request url "<date>"
     Then I get status "400"
-    And response contains error for not supported Currency Base "<symbol>"
+    And response contains error for not supported Currency Base "<base>"
     Examples:
-      |date      |symbol|
+      |date      |base|
       |1999-01-04|XYZ   |
 
   Scenario Outline: Trying to get historical Currency Rates for dates older then 1999-01-04

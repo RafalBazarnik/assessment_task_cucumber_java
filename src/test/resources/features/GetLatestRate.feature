@@ -22,7 +22,7 @@ Feature: Currency Rate Api - Getting latest Currency Rates
       |ISK |
       |SEK |
 
-  Scenario Outline: Latest Currency Rates for chosen Currency Symbols with chosen Base
+  Scenario Outline: Latest Currency Rates for chosen Currency Symbols
     Given I want to get Currencies Rates from GET rates api endpoint
     And I use query param `symbols` "<symbol>"
     When I request url "/latest"
@@ -36,7 +36,7 @@ Feature: Currency Rate Api - Getting latest Currency Rates
       |GBP,PLN    |
       |SEK,RON,TRY|
 
-  Scenario Outline: Latest Currency Rates for chosen Currency Symbols
+  Scenario Outline: Latest Currency Rates for chosen Currency Symbols with chosen Base
     Given I want to get Currencies Rates from GET rates api endpoint
     And I use query param `symbols` "<symbol>"
     And I use query param `base` "<base>"
