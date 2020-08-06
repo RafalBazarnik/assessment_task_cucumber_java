@@ -8,6 +8,7 @@
 Data based on: https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html
 ("The reference rates are usually updated around 16:00 CET on every working day, except on TARGET closing days. They are based on a regular daily concertation procedure between central banks across Europe, which normally takes place at 14:15 CET.")
 * przypadki testowe: https://docs.google.com/spreadsheets/d/1uq59oolIGf1_fbsWvvnvuxx6Fn4sIzkedwi1CTpWsqs/edit?usp=sharing
+* Postman collection in src\main\resources (Collection v2.1)
 * advised plugin: https://plugins.jetbrains.com/plugin/7212-cucumber-for-java (will require additional Gherkin language plugin)
 
 ### Comments:

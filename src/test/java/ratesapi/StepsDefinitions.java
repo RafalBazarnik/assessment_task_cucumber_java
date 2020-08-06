@@ -1,6 +1,5 @@
 package ratesapi;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -27,10 +26,11 @@ public class StepsDefinitions {
     private RequestSpecification request;
     private ResponsePOJO responsePOJO;
     private ErrorResponsePOJO errorResponsePOJO;
+    private String errorResponse;
 
     //region Given steps implementation:
 
-    @Given("I set GET rates API endpoint")
+    @Given("I want to get Currencies Rates from GET rates api endpoint")
     public void setEndpoint() {
         RestAssured.baseURI = ENDPOINT;
         request = given();
@@ -55,12 +55,14 @@ public class StepsDefinitions {
     @When("^I request url \"([^\"]*)\"$")
     public void requestUrl(String urlPart) {
         response = request.when().get(urlPart);
+        String responseString = response.body().asString();
         if (response.getStatusCode() == 200) {
-            responsePOJO = MapJsonToPOJO.map(response.body().asString());
+            responsePOJO = MapJsonToPOJO.map(responseString);
+        } else if (response.getStatusCode() == 404) {
+            errorResponse = responseString;
         } else {
-            errorResponsePOJO = MapJsonToPOJO.mapError(response.body().asString());
+            errorResponsePOJO = MapJsonToPOJO.mapError(responseString);
         }
-
     }
 
     //endregion
@@ -73,17 +75,17 @@ public class StepsDefinitions {
         assertEquals(Integer.parseInt(expectedStatusCode), actualStatusCode);
     }
 
-    @Then("^response contains base currency \"([^\"]*)\"$")
+    @Then("^response contains Base Currency \"([^\"]*)\"$")
     public void assertBaseCurrency(String expectedBaseCurrency) {
         assertEquals(expectedBaseCurrency, responsePOJO.getBase());
     }
 
-    @Then("response contains full list of currency rates")
+    @Then("response contains full list of Currency Rates")
     public void assertRatesFullList() {
         assertTrue(CurrenciesEnum.getFullCurrenciesList().containsAll(responsePOJO.getRates().keySet()));
     }
 
-    @Then("^response contains full list of currency rates without \"([^\"]*)\"$")
+    @Then("^response contains full list of Currency Rates without \"([^\"]*)\"$")
     public void assertRatesLimited(String baseCurrency) {
         List<String> listWithoutBase = CurrenciesEnum.getFullCurrenciesList()
                 .stream().filter(curr -> !curr.equals(baseCurrency)).collect(Collectors.toList());
@@ -95,13 +97,13 @@ public class StepsDefinitions {
         assertEquals(Helper.getLatestDate(), responsePOJO.getDate());
     }
 
-    @Then("^response contains error for invalid symbol \"([^\"]*)\" for date \"([^\"]*)\"$")
+    @Then("^response contains error for invalid Currency Symbol \"([^\"]*)\" for date \"([^\"]*)\"$")
     public void assertInvalidSymbolError(String invalidSymbol, String date) {
         assertEquals(String.format("Symbols '%s' are invalid for date %s.", invalidSymbol, date.isEmpty() ? Helper.getLatestDate(): date),
                 errorResponsePOJO.getError());
     }
 
-    @Then("^response contains error for not supported base \"([^\"]*)\"$")
+    @Then("^response contains error for not supported Currency Base \"([^\"]*)\"$")
     public void assertNotSupportedBaseError(String notSupportedBaseSymbol) {
         assertEquals(String.format("Base '%s' is not supported.", notSupportedBaseSymbol), errorResponsePOJO.getError());
     }
@@ -124,21 +126,21 @@ public class StepsDefinitions {
 
     @Then("^response contains error for url not found \"([^\"]*)\"$")
     public void assertNotFoundUrlError(String url) {
-        assertEquals(String.format("Error: Requested URL /api/%s not found", url), response.body().asString());
+        assertEquals(String.format("Error: Requested URL /api/%s not found", url), errorResponse);
     }
 
-    @Then("response contains rates for \"([^\"]*)\"$")
+    @Then("response contains Currency Rates for \"([^\"]*)\"$")
     public void assertRatesInResponse(String expectedCurrencyRates) {
         LOGGER.debug(responsePOJO.getRates() + " should contain: " + expectedCurrencyRates);
         assertTrue(responsePOJO.getRates().containsKey(expectedCurrencyRates));
     }
 
-    @Then("response rates for \"([^\"]*)\" equals \"([^\"]*)\"$")
+    @Then("response Currency Rates for \"([^\"]*)\" equals \"([^\"]*)\"$")
     public void assertRatesInResponse(String currency, Float expectedRate) {
         assertEquals(responsePOJO.getRates().get(currency), expectedRate);
     }
 
-    @Then("^response contains list of currency rates for \"([^\"]*)\"$")
+    @Then("^response contains list of Currency Rates for \"([^\"]*)\"$")
     public void assertFilteredRatesInResponse(String symbols) {
         LOGGER.debug(responsePOJO.getRates());
         List<String> symbolsList = Arrays.asList(symbols.split(","));

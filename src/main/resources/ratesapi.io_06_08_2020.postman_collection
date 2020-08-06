@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "9f938118-038c-48b0-bb51-900c801d541c",
+		"name": "ratesapi.io",
+		"description": "https://ratesapi.io/documentation/",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/latest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/latest",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"latest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/latest?symbols=USD,GBP",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/latest?symbols=USD,GBP",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"latest"
+					],
+					"query": [
+						{
+							"key": "symbols",
+							"value": "USD,GBP"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/latest?base=USD",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/latest?base=USD",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"latest"
+					],
+					"query": [
+						{
+							"key": "base",
+							"value": "USD"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/latest?base=USD&symbols=GBP",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/latest?base=USD&symbols=GBP",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"latest"
+					],
+					"query": [
+						{
+							"key": "base",
+							"value": "USD"
+						},
+						{
+							"key": "symbols",
+							"value": "GBP"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2010-01-12",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2010-01-12",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2010-01-12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2020-08-05",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2020-08-05",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2020-08-05"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/1999-01-04 (first date)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/1999-01-04",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"1999-01-04"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/1999-01-03 (error case: first date - 1)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/1999-01-03",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"1999-01-03"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/3030-05-12  (future date)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/3030-05-12",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"3030-05-12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2020-05-12 test (unconverted data remains)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2005-01-07 test",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2005-01-07 test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2020-08-1 (wrong date format)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2020-08-1",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2020-08-1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2000-12-31?symbols=LVL,ROL,CZK,DKK",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2000-12-31?symbols=LVL,ROL,CZK,DKK",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2000-12-31"
+					],
+					"query": [
+						{
+							"key": "symbols",
+							"value": "LVL,ROL,CZK,DKK"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2020-01-01?base=USD&symbols=GBP,PLN",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2020-01-01?base=USD&symbols=GBP,PLN",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2020-01-01"
+					],
+					"query": [
+						{
+							"key": "base",
+							"value": "USD"
+						},
+						{
+							"key": "symbols",
+							"value": "GBP,PLN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2010-06-06?base=PLN&symbols=PLN",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2010-06-06?base=PLN&symbols=PLN",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2010-06-06"
+					],
+					"query": [
+						{
+							"key": "base",
+							"value": "PLN"
+						},
+						{
+							"key": "symbols",
+							"value": "PLN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api 400",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/latest/test 404",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/latest/test",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"latest",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/2002-05-13/test 404",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ratesapi.io/api/2002-05-13/test",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ratesapi",
+						"io"
+					],
+					"path": [
+						"api",
+						"2002-05-13",
+						"test"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7d3e2685-2df0-4993-8f1d-10717e3b2b30",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "bf7c8e1f-13f8-4f22-bec0-b11d7ed4d075",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
