@@ -9,6 +9,7 @@ public class ErrorResponsePOJO {
     public String error;
 
     public ErrorResponsePOJO() {
+        // empty constructor
     }
 
     @JsonProperty("error")
@@ -23,8 +24,12 @@ public class ErrorResponsePOJO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ErrorResponsePOJO that = (ErrorResponsePOJO) o;
         return Objects.equals(error, that.error);
     }

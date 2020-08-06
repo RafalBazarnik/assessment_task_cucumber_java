@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class JsonFileLoader {
+public abstract class JsonFileLoader {
     private static Logger LOGGER = LogManager.getLogger(JsonFileLoader.class);
 
     public static ResponsePOJO getJsonFile(String date, String base, String symbol) {

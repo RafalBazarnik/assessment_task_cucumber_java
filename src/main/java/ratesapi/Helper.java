@@ -3,7 +3,7 @@ package ratesapi;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class Helper {
+public abstract class Helper {
     public static String getLatestDate() {
         LocalDateTime localDateTime = LocalDateTime.now();
         if(localDateTime.getHour() >= 16) { // see comment about dates in README.md

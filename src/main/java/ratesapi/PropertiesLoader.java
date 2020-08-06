@@ -1,5 +1,8 @@
 package ratesapi;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,11 +10,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-public class PropertiesLoader {
+public abstract class PropertiesLoader {
+    private static Logger LOGGER = LogManager.getLogger(PropertiesLoader.class);
     private static Properties properties = new Properties();
 
     private static Properties getProperties() {
-        if (properties.isEmpty()) loadProperties();
+        if (properties.isEmpty()) {
+            loadProperties();
+        }
         return properties;
     }
 
@@ -24,7 +30,13 @@ public class PropertiesLoader {
             input = new FileInputStream(path.toString());
             properties.load(input);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            LOGGER.error(exception.getMessage());
+        } finally {
+            try {
+                input.close();
+            } catch (IOException exception) {
+                LOGGER.error(exception.getMessage());
+            }
         }
     }
 

@@ -5,7 +5,6 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +21,6 @@ public class StepsDefinitions {
     private static Logger LOGGER = LogManager.getLogger(StepsDefinitions.class);
     private String ENDPOINT = PropertiesLoader.get("basic_api_url");
     private Response response;
-    private ValidatableResponse json;
     private RequestSpecification request;
     private ResponsePOJO responsePOJO;
     private ErrorResponsePOJO errorResponsePOJO;

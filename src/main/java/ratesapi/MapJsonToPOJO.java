@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-public class MapJsonToPOJO {
+public abstract class MapJsonToPOJO {
     private static Logger LOGGER = LogManager.getLogger(MapJsonToPOJO.class);
 
     public static ResponsePOJO map(String jsonString) {
@@ -36,5 +36,4 @@ public class MapJsonToPOJO {
 
         return errorResponsePOJO;
     }
-
 }

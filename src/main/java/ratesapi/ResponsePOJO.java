@@ -16,6 +16,7 @@ public class ResponsePOJO {
     public String date;
 
     public ResponsePOJO() {
+        // empty constructor
     }
 
     public String getBase() {
@@ -44,8 +45,12 @@ public class ResponsePOJO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ResponsePOJO that = (ResponsePOJO) o;
         return base.equals(that.base) &&
                 rates.equals(that.rates) &&
