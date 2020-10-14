@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 @Log4j2
-public class PropertiesLoader {
+public final class PropertiesLoader {
     private static Properties properties = new Properties();
 
     private static Properties getProperties() {
